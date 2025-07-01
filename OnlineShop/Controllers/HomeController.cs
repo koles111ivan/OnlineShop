@@ -11,12 +11,23 @@ namespace OnlineShop.Controllers
 {
     public class HomeController : Controller
     {
-        
-
-        public string Index(string name, int age)
+        private readonly ProductRepository productRepository;
+        public HomeController()
         {
-            return name + " "+ age;
+            productRepository = new ProductRepository();
         }
+
+        
+        public string Index()
+        {
+            var products = productRepository.GetAll();
+            var result = "";
+            foreach (var product in products)
+            {
+                result += product + "\n\n";
+            }
+            return result;
+        } 
 
         public IActionResult Privacy()
         {
