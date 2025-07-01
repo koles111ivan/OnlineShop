@@ -1,4 +1,5 @@
 ﻿using OnlineShop.Models;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace OnlineShop
@@ -15,6 +16,11 @@ namespace OnlineShop
         public List<Product> GetAll()
         {
             return products;
+        }
+
+        public Product TryGetById(int id)
+        {
+            return products.FirstOrDefault(product => product.Id == id);
         }
     }
 }
