@@ -12,14 +12,18 @@ namespace OnlineShop.Controllers
     public class HomeController : Controller
     {
         private readonly IProductsRepository productRepository;
-        public HomeController(IProductsRepository productRepository)
+        private readonly ICartsRepository cartsRepository;
+        public HomeController(IProductsRepository productRepository, ICartsRepository cartRepository)
         {
             this.productRepository = productRepository;
+            this.cartsRepository = cartRepository;
         }
 
 
         public IActionResult Index()
         {
+            var cart = cartsRepository.TryGetByUserId(Constants.UserId);
+            ViewBag.ProductCount = cart?.Amount;
             var products = productRepository.GetAll();          
             return View(products);
         } 
