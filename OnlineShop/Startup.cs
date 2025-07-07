@@ -20,6 +20,9 @@ namespace OnlineShop
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IOrdersRepository, OrdersInMemoryRepository>();
+            services.AddSingleton<IProductsRepository,ProductsInMemoryRepository>();
+            services.AddSingleton<ICartsRepository, CartsInMemoryRepository>();
             services.AddControllersWithViews();
         }
 

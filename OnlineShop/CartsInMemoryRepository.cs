@@ -5,15 +5,15 @@ using System.Linq;
 
 namespace OnlineShop
 {
-    public static class CartsRepository
+    public class CartsInMemoryRepository : ICartsRepository
     {
         private static List<Cart> carts = new List<Cart>();
-        public static Cart TryGetByUserId(string userId)
+        public Cart TryGetByUserId(string userId)
         {
             return carts.FirstOrDefault(x => x.UserId == userId);
         }
 
-        public static void Add(Product product, string userId)
+        public void Add(Product product, string userId)
         {
             var existingCart = TryGetByUserId(userId);
             if (existingCart == null)
@@ -52,7 +52,35 @@ namespace OnlineShop
                     });
                 }
             }
-              
+
+        }
+
+        public void DecreaseAmount(int productId, string userId)
+        {
+            var existingCart = TryGetByUserId(userId);          
+            var existingCartItem = existingCart?.Items?.FirstOrDefault(x => x.Product.Id == productId);
+            if (existingCartItem == null)
+            {
+                return;
+            }
+            existingCartItem.Amount -= 1;
+            if (existingCartItem.Amount == 0)
+            {
+                existingCart.Items.Remove(existingCartItem);
+            }
+           
+
+
+
+
+
+
+        }
+
+        public void Clear(string userId)
+        {
+            var existingCart=TryGetByUserId(userId);
+            carts.Remove(existingCart);
         }
     }
 }
