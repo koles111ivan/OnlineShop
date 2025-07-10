@@ -23,6 +23,7 @@ namespace OnlineShop
             services.AddSingleton<IOrdersRepository, OrdersInMemoryRepository>();
             services.AddSingleton<IProductsRepository,ProductsInMemoryRepository>();
             services.AddSingleton<ICartsRepository, CartsInMemoryRepository>();
+            services.AddSingleton<IRolesRepository, RolesInMemoryRepository>();
             services.AddControllersWithViews();
         }
 

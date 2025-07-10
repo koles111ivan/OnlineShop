@@ -15,6 +15,12 @@ namespace OnlineShop
             new Product("Тантум верде", 860, "От боли в горле", "/images/тантум верде.jpg" ),
 
         };
+
+        public void Add(Product product)
+        {
+            product.ImagePath = "/images/линекс форте.png";
+            products.Add(product);
+        }
         public List<Product> GetAll()
         {
             return products;
@@ -23,6 +29,19 @@ namespace OnlineShop
         public Product TryGetById(int id)
         {
             return products.FirstOrDefault(product => product.Id == id);
+        }
+
+        public void Update(Product product)
+        {
+            
+            var existingProduct = products.FirstOrDefault(x => x.Id == product.Id);
+            if (existingProduct == null)
+            {
+                return;
+            }
+            existingProduct.Name = product.Name;
+            existingProduct.Description = product.Description;
+            existingProduct.Cost = product.Cost;
         }
     }
 }

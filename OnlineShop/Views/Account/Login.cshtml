@@ -1,18 +1,23 @@
-﻿<form method="post">
+﻿@model Login
+<form method="post">
 <div>
     <h3>Вход</h3>
 </div>
-
+<div class="text-danger font-weight-bold" asp-validation-summary="ModelOnly"></div>
 <div class="row">
     <div class="col-6">
-        <input class="form-control" type="text" name="username">
+        <label asp-for="UserName"></label><>br</>
+        <input class="form-control" asp-for="UserName"/>
+        <span asp-validation-for="UserName"/>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-6">
-            <input class="form-control" type="password" name="password">
-    </div>
+        <div class="col-6">
+            <label asp-for="Password"></label><>br</>
+            <input class="form-control" asp-for="Password"/>
+            <span asp-validation-for="Password"/>
+        </div>
 </div>
 
 <div class="row">

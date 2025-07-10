@@ -20,6 +20,9 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public IActionResult Buy(UserDeliveryInfo user)
         {
+            if (!ModelState.IsValid)
+            {
+            }
             var existingCart=cartsRepository.TryGetByUserId(Constants.UserId);
             var order = new Order
             {
