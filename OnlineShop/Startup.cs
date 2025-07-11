@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace OnlineShop
 {
@@ -33,6 +34,7 @@ namespace OnlineShop
         
            
             app.UseHttpsRedirection();
+            app.UseSerilogRequestLogging();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -40,6 +42,10 @@ namespace OnlineShop
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "MyArea",
+                    pattern: "{area:exists}/{controller=Home}/{id?}");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
