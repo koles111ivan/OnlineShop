@@ -1,4 +1,4 @@
-﻿using OnlineShop.Models;
+﻿using OnlineShop.Areas.Admin.Models;
 using System.Collections.Generic;
 using System.Linq;
 

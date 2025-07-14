@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
-using OnlineShop.Models;
 using System.Linq;
+using OnlineShop.Models;
 
 namespace OnlineShop
 {

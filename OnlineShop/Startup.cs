@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
  
-namespace OnlineShop
+namespace OnlineShop.Areas.Admin
 {
     public class Startup
     {
@@ -42,7 +42,10 @@ namespace OnlineShop
 
             app.UseEndpoints(endpoints =>
             {
-                
+
+                endpoints.MapControllerRoute(
+                    name: "Area",
+                    pattern: "{area=exists}/{controller=Home}/{action=Index}/{id?}");   
 
                 endpoints.MapControllerRoute(
                     name: "default",

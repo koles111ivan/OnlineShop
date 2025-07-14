@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using OnlineShop.Areas.Admin;
+using OnlineShop.Areas.Admin.Controllers;
 using Serilog;
 namespace OnlineShop
 {

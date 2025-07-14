@@ -1,4 +1,5 @@
-﻿@model List<Order>
+﻿@using OnlineShop.Areas.Admin.Models
+@model List<Order>
 <div class="row">
     @await Html.PartialAsync("AdminLeftMenu")
 
@@ -30,7 +31,7 @@
                             <td>@EnumHelper.GetDisplayName(Model[i].Status)</td>
                             <td>@Model[i].CreateDateTime.ToString("d")</td>
                             <td>@Model[i].CreateDateTime.ToString("t")</td>
-                            <td><a href="/admin/orderDetails?orderId=@Model[i].Id">Подробнее</a></td>
+                            <td><a asp-area="Admin" asp-controller="Order" asp-action="Detail" asp-route-orderId="@Model[i].Id">Подробнее</a></td>
                             
                         </tr>
                     }
