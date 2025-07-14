@@ -5,6 +5,13 @@ namespace OnlineShop.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IUsersManager usersManager;
+
+        public AccountController(IUsersManager usersManager)
+        {
+            this.usersManager = usersManager;
+        }
+
         public IActionResult Login()
         {
             return View();
@@ -12,11 +19,22 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public IActionResult Login(Login login)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Login));
+            var userAccount = usersManager.TryGetByName(login.UserName);
+            if (userAccount == null)
             {
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", "Такого пользователя не существует");
+                return RedirectToAction(nameof(Login));
             }
-            return RedirectToAction("Login");
+
+            if (userAccount.Password != login.Password)
+            {
+                ModelState.AddModelError("", "Неправильный пароль");
+                return RedirectToAction(nameof(Login));
+            }
+                     
+            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));                      
         }
         public IActionResult Register()
         {
@@ -31,9 +49,14 @@ namespace OnlineShop.Controllers
             }
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                usersManager.Add(new UserAccount
+                {
+                    Name = register.UserName,
+                    Password = register.Password,
+                });
+                return RedirectToAction(nameof(HomeController.Index), "Home");
             }
-            return RedirectToAction("Register");
+            return RedirectToAction(nameof(Register));
         }
     }
 }

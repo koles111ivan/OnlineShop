@@ -25,6 +25,7 @@ namespace OnlineShop.Areas.Admin
             services.AddSingleton<IProductsRepository,ProductsInMemoryRepository>();
             services.AddSingleton<ICartsRepository, CartsInMemoryRepository>();
             services.AddSingleton<IRolesRepository, RolesInMemoryRepository>();
+            services.AddSingleton<IUsersManager, UsersManager>();
             services.AddControllersWithViews();
         }
 
