@@ -35,11 +35,17 @@
                                  asp-action="Edit"
                                  asp-route-productId=@Model[i].Id">Редактировать</a>
                             </td>
-                            <td><a 
-                                     asp-area="Admin"
-                                     asp-controller="Product"
-                                     asp-action="Remove"
-                                     asp-route-productId="@Model[i].Id">Удалить</a>
+                            
+
+                            <td>
+                                <button type="button"
+                                        class="btn btn-danger"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"
+                                        data-id="@Model[i].Id"
+                                        data-name="@Model[i].Name">
+                                    Удалить
+                                </button>
                             </td>
                                </tr>                       
                            }
@@ -48,4 +54,36 @@
                </div>                
             </div>
 </div>
-    
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Подтвердите удаление</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить продукт <span id="modalProductName"></span>?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" asp-area="Admin" asp-controller="Product" asp-action="Delete">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" id="modalProductId" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var productId = button.data('id');
+        var productName = button.data('name');
+        $('#modalProductId').val(productId);
+        $('#modalProductName').text(productName);
+    });
+</script>

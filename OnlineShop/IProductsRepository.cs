@@ -9,5 +9,6 @@ namespace OnlineShop
         void Update(Product product);
         List<Product> GetAll();
         Product TryGetById(int id);
+        void Remove(int id);
     }
 }

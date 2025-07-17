@@ -1,0 +1,13 @@
+﻿@model OnlineShop.Models.UserAccount
+<h3>Изменить роль пользователя</h3>
+<form asp-action="EditRights" method="post">
+    <input type="hidden" asp-for="Id"/>
+    <div>
+        <label asp-for="Role"></label>
+        <select asp-for="Role" class="form-control">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Coхранить</button>
+</form>

@@ -48,5 +48,11 @@ namespace OnlineShop.Areas.Admin.Controllers
             productsRepository.Update(product);
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        public IActionResult Delete(int productId)
+        {
+            productsRepository.Remove(productId);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

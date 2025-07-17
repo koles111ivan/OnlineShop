@@ -1,0 +1,28 @@
+﻿@using OnlineShop.Areas.Admin.Models
+@model UserAccount
+<div class="row">
+    <div class="col-6">
+        <table class="table">
+            <tr>
+                <td>Логин</td>
+                <td>@Model.Name)</td>
+            </tr>
+            <tr>
+                <td>Телефон</td>
+                <td>@Model.Phone</td>
+            </tr>           
+        </table>
+    </div>
+   </div>
+   <br/>
+
+   <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       Действия
+   </button>
+   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+       <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="ChangePassword" Asp-route-id="@Model.Id">Смена пароля</a>
+        <a class="dropdown-item" asp-area="Admin" asp-controller="User" Asp-action="Edit" Asp-route-id="@Model.Id">Редактирование данных</a>
+        <a class="dropdown-item" asp-area="Admin" asp-controller="User" Asp-action="EditRights" Asp-route-id="@Model.Id">Права доступа</a>
+        <a class="dropdown-item" asp-area="Admin" asp-controller="User" Asp-action="Delete" Asp-route-id="@Model.Id">Удалить</a>
+
+   </div>

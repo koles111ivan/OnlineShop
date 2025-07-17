@@ -6,19 +6,33 @@ namespace OnlineShop
 {
     public class ProductsInMemoryRepository : IProductsRepository
     {
-        private List<Product> products = new List<Product>()
-        {
-            new Product("Линекс форте", 1099,"Лактобактерии ацидофиллус, Бифидобактерии ВВ12", "/images/линекс форте.png"),
-            new Product("Дона", 1671, "Глюкозамин", "/images/Дона.webp"),
-            new Product("Фитолакс", 521,"Эвалар", "/images/Фитолакс.webp"),
-            new Product("Гептрал", 1939, "Действующим веществом является адеметионин.", "/images/Гептрал.jpg" ),
-            new Product("Тантум верде", 860, "От боли в горле", "/images/тантум верде.jpg" ),
+        private List<Product> products;
+        private int nextId = 1;
 
-        };
+        public ProductsInMemoryRepository()
+        {
+            products = new List<Product>
+            {
+                new Product("Линекс форте", 1099,"Лактобактерии ацидофиллус, Бифидобактерии ВВ12", "/images/линекс форте.png"),
+                new Product("Дона", 1671, "Глюкозамин", "/images/Дона.webp"),
+                new Product("Фитолакс", 521,"Эвалар", "/images/Фитолакс.webp"),
+                new Product("Гептрал", 1939, "Действующим веществом является адеметионин.", "/images/Гептрал.jpg" ),
+                new Product("Тантум верде", 860, "От боли в горле", "/images/тантум верде.jpg" ),
+            };
+            foreach (var p in products)
+            {
+                p.Id = nextId++;
+            }
+        }
 
         public void Add(Product product)
         {
-            product.ImagePath = "/images/линекс форте.png";
+            if (product.Id == 0)
+            {
+                product.Id = nextId++;
+            }
+            if (string.IsNullOrEmpty(product.ImagePath))
+                product.ImagePath = "/images/линекс форте.png";
             products.Add(product);
         }
         public List<Product> GetAll()
@@ -33,7 +47,6 @@ namespace OnlineShop
 
         public void Update(Product product)
         {
-            
             var existingProduct = products.FirstOrDefault(x => x.Id == product.Id);
             if (existingProduct == null)
             {
@@ -42,6 +55,14 @@ namespace OnlineShop
             existingProduct.Name = product.Name;
             existingProduct.Description = product.Description;
             existingProduct.Cost = product.Cost;
+        }
+        public void Remove(int id)
+        {
+            var product = products.FirstOrDefault(x => x.Id == id);
+            if (product != null)
+            {
+                products.Remove(product);
+            }
         }
     }
 }

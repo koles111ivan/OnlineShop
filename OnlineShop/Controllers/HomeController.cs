@@ -18,10 +18,14 @@ namespace OnlineShop.Controllers
             this.productRepository = productRepository;         
         }
 
-
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {        
-            var products = productRepository.GetAll();          
+            var products = productRepository.GetAll();
+            if(!string.IsNullOrEmpty(search))
+            {
+                products =products.Where(p=>p.Name.Contains(search,StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            ViewBag.Search = search;
             return View(products);
         }           
     }

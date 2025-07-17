@@ -34,7 +34,7 @@ namespace OnlineShop.Controllers
                 return RedirectToAction(nameof(Login));
             }
                      
-            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController));                      
+            return RedirectToAction("Index","Home");                      
         }
         public IActionResult Register()
         {
@@ -53,8 +53,9 @@ namespace OnlineShop.Controllers
                 {
                     Name = register.UserName,
                     Password = register.Password,
+                    Phone = register.Phone
                 });
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction(nameof(Register));
         }

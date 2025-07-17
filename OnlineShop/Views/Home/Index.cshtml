@@ -2,7 +2,14 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<form method="get" asp-controller="Home" asp-action="Index" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Поиск по имени товара" value="@ViewBag.Search" />
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Найти</button>
+        </div>
+    </div>
+</form>
 <div class="row">
     @foreach (var product in Model)
     {
