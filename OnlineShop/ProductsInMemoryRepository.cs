@@ -18,6 +18,9 @@ namespace OnlineShop
                 new Product("Фитолакс", 521,"Эвалар", "/images/Фитолакс.webp"),
                 new Product("Гептрал", 1939, "Действующим веществом является адеметионин.", "/images/Гептрал.jpg" ),
                 new Product("Тантум верде", 860, "От боли в горле", "/images/тантум верде.jpg" ),
+                new Product("Зодак", 290, "Таблетки от аллергии", "/images/Зодак.jpg" ),
+                new Product("Nivea Sun", 1132, "Спрей от солнца", "/images/Nivea_Sun.jpg" ),
+                new Product("Нурофен", 197, "От боли в голове", "/images/нурофен.webp" ),
             };
             foreach (var p in products)
             {

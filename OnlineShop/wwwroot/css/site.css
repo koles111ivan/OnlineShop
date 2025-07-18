@@ -11,63 +11,155 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+}
+
+:root {
+    --main-blue: #1565c0;
+    --main-blue-dark: #003c8f;
+    --main-blue-light: #5e92f3;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: #f4f8fd !important;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    background: var(--main-blue) !important;
+}
+
+.navbar, .footer {
+    background: var(--main-blue) !important;
+    color: #fff !important;
+}
+
+    .navbar .navbar-brand, .navbar .nav-link, .footer {
+        color: #fff !important;
+    }
+
+        .navbar .nav-link.active, .navbar .nav-link:focus, .navbar .nav-link:hover {
+            color: var(--main-blue-light) !important;
+        }
+
+a, .btn-link {
+    color: var(--main-blue-dark) !important;
+}
+
+    a:hover, .btn-link:hover {
+        color: var(--main-blue-light) !important;
+    }
+
+.btn-primary, .btn-dark, .btn {
+    background: var(--main-blue) !important;
+    border-color: var(--main-blue-dark) !important;
+    color: #fff !important;
+}
+
+    .btn-primary:hover, .btn-dark:hover, .btn:hover {
+        background: var(--main-blue-dark) !important;
+        color: #fff !important;
+    }
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--main-blue-dark) !important;
+}
+
+.card {
+    display: flex !important;
+    flex-direction: column;
+    height: 100% !important;
+    min-height: 420px;
+}
+
+.card-img-top {
+    height: 180px;
+    width: 100%;
+    object-fit: contain;
+    background: #fff;
+    margin-top: 10px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+}
+
+    .card-body h5, .card-body a, .card-body .btn {
+        margin-bottom: 10px;
+    }
+
+.card .btn {
+    margin-top: auto;
+}
+
+/* Отступ снизу для главного баннера-карусели */
+#mainBannerCarousel {
+    margin-bottom: 2rem;
+}
+
+.banner-img {
+    height: 350px !important;
+    width: 100% !important;
+    object-fit: contain !important;
+    background: #fff !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
