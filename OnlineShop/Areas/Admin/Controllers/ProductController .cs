@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Areas.Admin.Models;
+using OnlineShop.Db;
+using OnlineShop.Db.Models;
 using OnlineShop.Models;
 using System;
+using System.Collections.Generic;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -17,20 +20,39 @@ namespace OnlineShop.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var products = productsRepository.GetAll();
-            return View(products);
+            var productsViewModel = new List<ProductViewModel>();
+            foreach (var product in products)
+            {
+                var productViewModel = new ProductViewModel
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Cost = product.Cost,
+                    Description = product.Description,
+                    ImagePath = product.ImagePath,
+                };
+                productsViewModel.Add(productViewModel);
+            }
+            return View(productsViewModel);
         }
         public IActionResult Add()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Add(Product product)
+        public IActionResult Add(ProductViewModel product)
         {
             if (!ModelState.IsValid)
             {
                 return View(product);
             }
-            productsRepository.Add(product);
+            var productDb = new Product
+            {
+                Name = product.Name,
+                Cost = product.Cost,
+                Description = product.Description,
+            };
+            productsRepository.Add(productDb);
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Edit(int productId)
@@ -45,7 +67,13 @@ namespace OnlineShop.Areas.Admin.Controllers
             {
                 return View(product);
             }
-            productsRepository.Update(product);
+            var productDb = new Product
+            {
+                Name = product.Name,
+                Cost = product.Cost,
+                Description = product.Description,
+            };
+            productsRepository.Update(productDb);
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
 
 namespace OnlineShop.Controllers
 {
@@ -22,7 +23,7 @@ namespace OnlineShop.Controllers
         public IActionResult Add (int productId)
         {
             var product = productRepository.TryGetById(productId);
-            cartsRepository.Add(product, Constants.UserId);
+           // cartsRepository.Add(product, Constants.UserId);
             return RedirectToAction("Index");
 
         }

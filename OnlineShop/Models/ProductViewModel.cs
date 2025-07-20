@@ -2,7 +2,7 @@
 
 namespace OnlineShop.Models
 {
-    public class Product
+    public class ProductViewModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Вы не указали название")]
@@ -13,17 +13,6 @@ namespace OnlineShop.Models
         [Required(ErrorMessage = "Вы не указали описание")]
         public string Description { get; set; }
         public string ImagePath { get; set; }
-        public Product() { }
-        public Product(string name, decimal cost, string description, string imagePath)
-        {
-            Name = name;
-            Cost = cost;
-            Description = description;
-            ImagePath = imagePath;
-        }
-        public override string ToString()
-        {
-            return $"{Id}\n{Name}\n{Cost}";
-        }
+       
     }
 }
