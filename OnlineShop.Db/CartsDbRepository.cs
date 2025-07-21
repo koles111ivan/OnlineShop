@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-using Microsoft.Extensions.Configuration.FileExtensions;
-using Microsoft.Extensions.Configuration.Json;
+
 
 namespace OnlineShop.Db
 {
@@ -21,7 +20,7 @@ namespace OnlineShop.Db
         }
         public Cart TryGetByUserId(string userId)
         {
-            return dataBaseContext.Carts.FirstOrDefault(x => x.UserId == userId);
+            return dataBaseContext.Carts.Include(x=>x.Items).ThenInclude(x=>x.Product).FirstOrDefault(x => x.UserId == userId);
         }
 
         public void Add(Product product, string userId)
@@ -32,16 +31,17 @@ namespace OnlineShop.Db
                 var newCart = new Cart
                 {
 
-                    UserId = userId,
-                    Items = new List<CartItem>
-                    {
-                        new CartItem
+                    UserId = userId
+                };
+                newCart.Items = new List<CartItem>
+                {
+                    new CartItem
                         {
                             Amount =1,
-                            Product = product
+                            Product = product,
+                            Cart = newCart
                         }
-                    }
-                };
+                };               
                 dataBaseContext.Carts.Add(newCart);
 
             }
@@ -57,7 +57,8 @@ namespace OnlineShop.Db
                     existingCart.Items.Add(new CartItem
                     {
                         Amount = 1,
-                        Product = product
+                        Product = product,
+                        Cart = existingCart
                     });
                 }
             }
@@ -89,19 +90,5 @@ namespace OnlineShop.Db
         }
     }
 
-    public class DataBaseContextFactory : IDesignTimeDbContextFactory<DataBaseContext>
-    {
-        public DataBaseContext CreateDbContext(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("../OnlineShop/appsettings.json")
-                .Build();
-
-            var optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("online_shop"));
-
-            return new DataBaseContext(optionsBuilder.Options);
-        }
-    }
+    
 }
