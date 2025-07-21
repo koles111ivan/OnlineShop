@@ -2,6 +2,7 @@
 using OnlineShop.Areas.Admin.Models;
 using OnlineShop.Db;
 using OnlineShop.Db.Models;
+using OnlineShop.Helpers;
 using OnlineShop.Models;
 using System;
 using System.Collections.Generic;
@@ -19,21 +20,8 @@ namespace OnlineShop.Areas.Admin.Controllers
   
         public IActionResult Index()
         {
-            var products = productsRepository.GetAll();
-            var productsViewModel = new List<ProductViewModel>();
-            foreach (var product in products)
-            {
-                var productViewModel = new ProductViewModel
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Cost = product.Cost,
-                    Description = product.Description,
-                    ImagePath = product.ImagePath,
-                };
-                productsViewModel.Add(productViewModel);
-            }
-            return View(productsViewModel);
+            var products = productsRepository.GetAll();           
+            return View(Mapping.ToProductViewModels(products));
         }
         public IActionResult Add()
         {

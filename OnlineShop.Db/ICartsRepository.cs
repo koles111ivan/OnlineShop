@@ -1,11 +1,11 @@
-﻿using OnlineShop.Models;
+﻿
+using OnlineShop.Db.Models;
 
-namespace OnlineShop
+namespace OnlineShop.Db
 {
     public interface ICartsRepository
     {
-        void Add(ProductViewModel product, string userId);
-        
+        void Add(Product product, string userId);    
         void Clear(string userId);
         void DecreaseAmount(int productId, string userId);
         Cart TryGetByUserId(string userId);

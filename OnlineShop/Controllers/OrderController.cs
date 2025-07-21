@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db;
+using OnlineShop.Helpers;
 using OnlineShop.Models;
 
 namespace OnlineShop.Controllers
@@ -24,6 +26,7 @@ namespace OnlineShop.Controllers
             {
             }
             var existingCart=cartsRepository.TryGetByUserId(Constants.UserId);
+            var existingCartViewModel = Mapping.ToCartViewModel(existingCart);
             var order = new Order
             {
                 User = user,

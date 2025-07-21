@@ -1,38 +1,48 @@
 ﻿using System.Collections.Generic;
 using System;
-using OnlineShop.Models;
 using System.Linq;
+using OnlineShop.Db.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
-namespace OnlineShop
+using Microsoft.Extensions.Configuration.FileExtensions;
+using Microsoft.Extensions.Configuration.Json;
+
+namespace OnlineShop.Db
 {
-    public class CartsInMemoryRepository : ICartsRepository
+    public class CartsDbRepository : ICartsRepository
     {
-        private static List<Cart> carts = new List<Cart>();
+        private readonly DataBaseContext dataBaseContext;
+        public CartsDbRepository(DataBaseContext dataBaseContext)
+        {
+            this.dataBaseContext = dataBaseContext;
+        }
         public Cart TryGetByUserId(string userId)
         {
-            return carts.FirstOrDefault(x => x.UserId == userId);
+            return dataBaseContext.Carts.FirstOrDefault(x => x.UserId == userId);
         }
 
-        public void Add(ProductViewModel product, string userId)
+        public void Add(Product product, string userId)
         {
             var existingCart = TryGetByUserId(userId);
             if (existingCart == null)
             {
                 var newCart = new Cart
                 {
-                    Id = Guid.NewGuid(),
+
                     UserId = userId,
                     Items = new List<CartItem>
                     {
                         new CartItem
                         {
-                            Id = Guid.NewGuid(),
                             Amount =1,
                             Product = product
                         }
                     }
                 };
-                carts.Add(newCart);
+                dataBaseContext.Carts.Add(newCart);
 
             }
             else
@@ -46,18 +56,18 @@ namespace OnlineShop
                 {
                     existingCart.Items.Add(new CartItem
                     {
-                        Id = Guid.NewGuid(),
                         Amount = 1,
                         Product = product
                     });
                 }
             }
+            dataBaseContext.SaveChanges();
 
         }
 
         public void DecreaseAmount(int productId, string userId)
         {
-            var existingCart = TryGetByUserId(userId);          
+            var existingCart = TryGetByUserId(userId);
             var existingCartItem = existingCart?.Items?.FirstOrDefault(x => x.Product.Id == productId);
             if (existingCartItem == null)
             {
@@ -68,19 +78,30 @@ namespace OnlineShop
             {
                 existingCart.Items.Remove(existingCartItem);
             }
-           
-
-
-
-
-
-
+            dataBaseContext.SaveChanges();
         }
 
         public void Clear(string userId)
         {
-            var existingCart=TryGetByUserId(userId);
-            carts.Remove(existingCart);
+            var existingCart = TryGetByUserId(userId);
+            dataBaseContext.Carts.Remove(existingCart);
+            dataBaseContext.SaveChanges();
+        }
+    }
+
+    public class DataBaseContextFactory : IDesignTimeDbContextFactory<DataBaseContext>
+    {
+        public DataBaseContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("../OnlineShop/appsettings.json")
+                .Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("online_shop"));
+
+            return new DataBaseContext(optionsBuilder.Options);
         }
     }
 }

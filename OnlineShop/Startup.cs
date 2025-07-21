@@ -29,7 +29,7 @@ namespace OnlineShop.Areas.Admin
 
             services.AddSingleton<IOrdersRepository, OrdersInMemoryRepository>();
             services.AddTransient<IProductsRepository,ProductsDbRepository>();
-            services.AddSingleton<ICartsRepository, CartsInMemoryRepository>();
+            services.AddTransient<ICartsRepository, CartsDbRepository>();
             services.AddSingleton<IRolesRepository, RolesInMemoryRepository>();
             services.AddSingleton<IUsersManager, UsersManager>();
             services.AddControllersWithViews();
