@@ -11,7 +11,7 @@
     </div>
 </form>
 
-<!-- Слайдер-карусель баннеров -->
+
 <div id="mainBannerCarousel" class="carousel slide mb-4" data-ride="carousel">
     <ol class="carousel-indicators">
         <li data-target="#mainBannerCarousel" data-slide-to="0" class="active"></li>
@@ -66,6 +66,18 @@
                    asp-action="Add"
                    asp-route-productId="@product.Id"
                    role="button">Добавить в корзину</a>
+                <a class="btn btn-success"
+                   asp-area=""
+                   asp-controller="Favorite"
+                   asp-action="Add"
+                   asp-route-productId="@product.Id"
+                   role="button">Добавить в избранное</a>
+                <a class="btn btn-info"
+                   asp-area=""
+                   asp-controller="Compare"
+                   asp-action="Add"
+                   asp-route-productId="@product.Id"
+                   role="button">Добавить в сравнение</a>
             </div>
         </div>
     }

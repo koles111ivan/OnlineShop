@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Db;
 using Serilog;
- 
+
 namespace OnlineShop.Areas.Admin
 {
     public class Startup
@@ -20,7 +20,7 @@ namespace OnlineShop.Areas.Admin
 
         public IConfiguration Configuration { get; }
 
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("online_shop");
@@ -28,18 +28,20 @@ namespace OnlineShop.Areas.Admin
             options.UseSqlServer(connection));
 
             services.AddSingleton<IOrdersRepository, OrdersInMemoryRepository>();
-            services.AddTransient<IProductsRepository,ProductsDbRepository>();
+            services.AddTransient<IProductsRepository, ProductsDbRepository>();
             services.AddTransient<ICartsRepository, CartsDbRepository>();
+            services.AddTransient<IFavoriteRepository, FavoriteDbRepository>();
+            services.AddTransient<ICompareRepository, CompareDbRepository>();
             services.AddSingleton<IRolesRepository, RolesInMemoryRepository>();
             services.AddSingleton<IUsersManager, UsersManager>();
             services.AddControllersWithViews();
         }
 
-       
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-        
-           
+
+
             app.UseHttpsRedirection();
             app.UseSerilogRequestLogging();
             app.UseStaticFiles();

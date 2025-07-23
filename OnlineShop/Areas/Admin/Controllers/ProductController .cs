@@ -39,6 +39,7 @@ namespace OnlineShop.Areas.Admin.Controllers
                 Name = product.Name,
                 Cost = product.Cost,
                 Description = product.Description,
+                ImagePath = "/images/Зодак.jpg"
             };
             productsRepository.Add(productDb);
             return RedirectToAction(nameof(Index));

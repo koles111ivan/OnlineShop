@@ -4,9 +4,9 @@ using OnlineShop.Helpers;
 using OnlineShop.Models;
 using System.Collections.Generic;
 
-namespace OnlineShop.Views.Shared.ViewComponents.CartViewComponents
+namespace OnlineShop.Views.Shared.Components.Cart
 {
-    public class CartViewComponent: ViewComponent
+    public class CartViewComponent : ViewComponent
     {
         private readonly ICartsRepository cartsRepository;
         public CartViewComponent(ICartsRepository cartsRepository)
@@ -18,7 +18,7 @@ namespace OnlineShop.Views.Shared.ViewComponents.CartViewComponents
             var cart = cartsRepository.TryGetByUserId(Constants.UserId);
             var cartViewModel = Mapping.ToCartViewModel(cart);
             var productCounts = cartViewModel?.Amount ?? 0;
-            return View("Cart", productCounts);
-        }      
-    }   
+            return View(productCounts);
+        }
+    }
 }
