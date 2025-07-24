@@ -26,6 +26,38 @@ namespace OnlineShop.Helpers
                     ImagePath = product.ImagePath,
                 };              
         }
+
+        public static OrderViewModel ToOrderViewModel(Order order)
+        {
+            return new OrderViewModel
+            {
+                Id = order.Id,
+                CreateDateTime = order.CreateDateTime,
+                Status = (OrderStatusViewModel)(int)order.Status,
+                User = ToUserDeliveryInfoViewModel(order.User),
+                Items = ToCartItemViewModels(order.Items),
+
+            };
+        }
+        public static UserDeliveryInfoViewModel ToUserDeliveryInfoViewModel(UserDeliveryInfo DeliveryInfo)
+        {
+            return new UserDeliveryInfoViewModel
+            {
+                Name = DeliveryInfo.Name,
+                Address = DeliveryInfo.Address,
+                Phone = DeliveryInfo.Phone,
+            };
+        }
+
+        public static UserDeliveryInfo ToUser(this UserDeliveryInfoViewModel user)
+        {
+            return new UserDeliveryInfo
+            {
+                Name = user.Name,
+                Address = user.Address,
+                Phone = user.Phone,
+            };
+        }
         public static CartViewModel ToCartViewModel(Cart cart)
         {
             if (cart == null)

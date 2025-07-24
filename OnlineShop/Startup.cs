@@ -27,7 +27,7 @@ namespace OnlineShop.Areas.Admin
             services.AddDbContext<DataBaseContext>(options =>
             options.UseSqlServer(connection));
 
-            services.AddSingleton<IOrdersRepository, OrdersInMemoryRepository>();
+            services.AddTransient<IOrdersRepository, OrdersDbRepository>();
             services.AddTransient<IProductsRepository, ProductsDbRepository>();
             services.AddTransient<ICartsRepository, CartsDbRepository>();
             services.AddTransient<IFavoriteRepository, FavoriteDbRepository>();

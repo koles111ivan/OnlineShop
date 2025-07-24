@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace OnlineShop.Db.Models
+namespace OnlineShop.Models
 {
-    public enum OrderStatus
+    public enum OrderStatusViewModel
     {
         [Display(Name ="Создан")]
         Created,
