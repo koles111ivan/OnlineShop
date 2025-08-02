@@ -150,6 +150,72 @@ namespace OnlineShop.Db.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cost = 1099m,
+                            Description = "Лактобактерии ацидофиллус, Бифидобактерии ВВ12",
+                            ImagePath = "/images/линекс форте.png",
+                            Name = "Линекс форте"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cost = 1671m,
+                            Description = "Глюкозамин",
+                            ImagePath = "/images/Дона.webp",
+                            Name = "Дона"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Cost = 521m,
+                            Description = "Эвалар",
+                            ImagePath = "/images/Фитолакс.webp",
+                            Name = "Фитолакс"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cost = 1939m,
+                            Description = "Действующим веществом является адеметионин.",
+                            ImagePath = "/images/Гептрал.jpg",
+                            Name = "Гептрал"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cost = 860m,
+                            Description = "От боли в горле",
+                            ImagePath = "/images/тантум верде.jpg",
+                            Name = "Тантум верде"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Cost = 290m,
+                            Description = "Таблетки от аллергии",
+                            ImagePath = "/images/Зодак.jpg",
+                            Name = "Зодак"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Cost = 1132m,
+                            Description = "Спрей от солнца",
+                            ImagePath = "/images/Nivea_Sun.jpg",
+                            Name = "Nivea Sun"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Cost = 197m,
+                            Description = "От боли в голове",
+                            ImagePath = "/images/нурофен.webp",
+                            Name = "Нурофен"
+                        });
                 });
 
             modelBuilder.Entity("OnlineShop.Db.Models.UserDeliveryInfo", b =>
