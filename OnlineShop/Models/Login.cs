@@ -11,5 +11,6 @@ namespace OnlineShop.Models
         [StringLength(25, MinimumLength = 4, ErrorMessage ="Пароль должен содержать от 4 до 25 символов")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

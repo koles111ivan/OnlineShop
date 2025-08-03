@@ -15,19 +15,38 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Корзина @await Component.InvokeAsync("Cart")</a>
                     </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item text-dark">
+                            @User.Identity.Name
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                        </li>
+                    }
 
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="account" asp-action="login">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Order" asp-action="Index">Администратор</a>
-                    </li>
+                    @if (User.IsInRole(Constants.AdminRoleName))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Order" asp-action="Index">Администратор</a>
+                        </li>
+                    }
+                   
+                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Favorite" asp-action="Index">Избранное @await Component.InvokeAsync("FavoriteProductsCount")</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Compare" asp-action="Index">Сравнение @await Component.InvokeAsync("CompareProductsCount")</a>
                     </li>
+
+
                 </ul>
             </div>
         </div>

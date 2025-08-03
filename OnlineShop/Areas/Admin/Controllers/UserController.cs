@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
 using OnlineShop.Areas.Admin.Models;
 using OnlineShop.Controllers;
+using OnlineShop.Db;
 using OnlineShop.Models;
 using System;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(Constants.AdminRoleName)]
+    [Authorize(Roles = Constants.AdminRoleName)]
     public class UserController : Controller
     {
         private readonly IUsersManager usersManager;

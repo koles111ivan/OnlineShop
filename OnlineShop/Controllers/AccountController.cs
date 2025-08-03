@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Db.Models;
 using OnlineShop.Models;
 
 namespace OnlineShop.Controllers
@@ -6,36 +8,59 @@ namespace OnlineShop.Controllers
     public class AccountController : Controller
     {
         private readonly IUsersManager usersManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(IUsersManager usersManager)
+        public AccountController(IUsersManager usersManager, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.usersManager = usersManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
+
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl)
         {
-            return View();
+            return View(new Login() { ReturnUrl = returnUrl});
         }
+
         [HttpPost]
         public IActionResult Login(Login login)
         {
-            if (!ModelState.IsValid)
-                return RedirectToAction(nameof(Login));
-            var userAccount = usersManager.TryGetByName(login.UserName);
-            if (userAccount == null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Такого пользователя не существует");
-                return RedirectToAction(nameof(Login));
+                var result = _signInManager.PasswordSignInAsync(login.UserName, login.Password, login.RememberMe, false).Result;
+                if (result.Succeeded)
+                {
+                    return Redirect(login.ReturnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный пароль");
+                }
             }
-
-            if (userAccount.Password != login.Password)
-            {
-                ModelState.AddModelError("", "Неправильный пароль");
-                return RedirectToAction(nameof(Login));
-            }
-                     
-            return RedirectToAction("Index","Home");                      
+            return View(login);
         }
+        //[HttpPost]
+        //public IActionResult Login(Login login)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return RedirectToAction(nameof(Login));
+        //    var userAccount = usersManager.TryGetByName(login.UserName);
+        //    if (userAccount == null)
+        //    {
+        //        ModelState.AddModelError("", "Такого пользователя не существует");
+        //        return RedirectToAction(nameof(Login));
+        //    }
+
+        //    if (userAccount.Password != login.Password)
+        //    {
+        //        ModelState.AddModelError("", "Неправильный пароль");
+        //        return RedirectToAction(nameof(Login));
+        //    }
+                     
+        //    return RedirectToAction("Index","Home");                      
+        //}
         public IActionResult Register()
         {
             return View();

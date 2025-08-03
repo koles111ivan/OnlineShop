@@ -1,13 +1,17 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnlineShop.Db;
+using OnlineShop.Db.Models;
 using Serilog;
+using System;
 
 namespace OnlineShop.Areas.Admin
 {
@@ -26,6 +30,23 @@ namespace OnlineShop.Areas.Admin
             string connection = Configuration.GetConnectionString("online_shop");
             services.AddDbContext<DataBaseContext>(options =>
             options.UseSqlServer(connection));
+
+            services.AddDbContext<IdentityContext>(options =>
+            options.UseSqlServer(connection));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.Cookie = new CookieBuilder
+                {
+                    IsEssential = true
+                };
+            });
 
             services.AddTransient<IOrdersRepository, OrdersDbRepository>();
             services.AddTransient<IProductsRepository, ProductsDbRepository>();
@@ -48,6 +69,9 @@ namespace OnlineShop.Areas.Admin
 
             app.UseRouting();
             //http://localhost:5001/hello/start
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
