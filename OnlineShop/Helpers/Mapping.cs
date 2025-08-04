@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Db.Models;
 using OnlineShop.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShop.Helpers
 {
@@ -86,6 +87,15 @@ namespace OnlineShop.Helpers
                 cartItems.Add(cartItem);
             }
             return cartItems;
+        }
+        public static UserViewModel ToUserViewModel(this User user)
+        {
+            return new UserViewModel
+            {
+                Name = user.UserName,
+                Phone = user.PhoneNumber
+
+            };
         }
     }
 }

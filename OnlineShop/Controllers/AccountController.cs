@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Db.Models;
 using OnlineShop.Models;
+using System.Threading.Tasks;
 
 namespace OnlineShop.Controllers
 {
@@ -32,7 +33,7 @@ namespace OnlineShop.Controllers
                 var result = _signInManager.PasswordSignInAsync(login.UserName, login.Password, login.RememberMe, false).Result;
                 if (result.Succeeded)
                 {
-                    return Redirect(login.ReturnUrl);
+                    return Redirect(login.ReturnUrl ?? "/Home");
                 }
                 else
                 {
@@ -58,31 +59,72 @@ namespace OnlineShop.Controllers
         //        ModelState.AddModelError("", "Неправильный пароль");
         //        return RedirectToAction(nameof(Login));
         //    }
-                     
+
         //    return RedirectToAction("Index","Home");                      
         //}
-        public IActionResult Register()
+
+        public IActionResult Register(string returnUrl)
         {
-            return View();
+            return View(new Register() {ReturnUrl = returnUrl});
         }
+
         [HttpPost]
         public IActionResult Register(Register register)
         {
-            if (register.UserName == register.Password)
+            if (register.UserName ==register.Password)
             {
                 ModelState.AddModelError("", "Логин и пароль не должны совпадать!");
             }
             if (ModelState.IsValid)
             {
-                usersManager.Add(new UserAccount
+                User user = new User { Email = register.UserName, UserName = register.UserName };
+                var result = _userManager.CreateAsync(user, register.Password).Result;
+                if (result.Succeeded)
                 {
-                    Name = register.UserName,
-                    Password = register.Password,
-                    Phone = register.Phone
-                });
-                return RedirectToAction("Index", "Home");
+                    _signInManager.SignInAsync(user, false).Wait();
+                    return Redirect(register.ReturnUrl ?? "/Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
-            return RedirectToAction(nameof(Register));
+            return View(register);
+           
         }
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult Register(Register register)
+        //{
+        //    if (register.UserName == register.Password)
+        //    {
+        //        ModelState.AddModelError("", "Логин и пароль не должны совпадать!");
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        usersManager.Add(new UserAccount
+        //        {
+        //            Name = register.UserName,
+        //            Password = register.Password,
+        //            Phone = register.Phone
+        //        });
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    return RedirectToAction(nameof(Register));
+        //}
     }
 }
