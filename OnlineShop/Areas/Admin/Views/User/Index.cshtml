@@ -29,8 +29,9 @@
                             <td>@Model[i].Phone</td>
                             <td><a asp-area="Admin" 
                                    asp-controller="User" 
-                                   asp-action="Detail" 
-                                   asp-route-id="@Model[i].Id">Подробнее</a></td>
+                                   asp-action="Detail"
+                                   asp-route-name="@Model[i].Name">Подробнее</a>
+                            </td>
 
                         </tr>
                     }

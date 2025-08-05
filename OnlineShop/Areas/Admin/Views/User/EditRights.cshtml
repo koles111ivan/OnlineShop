@@ -1,13 +1,29 @@
-﻿@model OnlineShop.Models.UserAccount
-<h3>Изменить роль пользователя</h3>
-<form asp-action="EditRights" method="post">
-    <input type="hidden" asp-for="Id"/>
+﻿@model EditRightsViewModel
+<form method="post">    
     <div>
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control">
-            <option value="User">User</option>
-            <option value="Admin">Admin</option>
-        </select>
+        <h3>Текущие роли для пользователя @Model.UserName</h3>
     </div>
-    <button type="submit" class="btn btn-primary">Coхранить</button>
+    <input type =" hidden" name="name" value="@Model.UserName">
+    @foreach (var role in Model.AllRoles)
+    {
+        
+
+        <div>
+            @if (Model.UserRoles.Contains(role))
+            {
+                <input class="form-check-input" name="userRolesViewModel[@role.Name]" type="checkbox" value="true" checked />
+                <label class="form-check-label" for="flexCheckDefault">@role.Name</label>
+            }
+            else
+            {
+                <input class="form-check-input" name="userRolesViewModel[@role.Name]" type="checkbox" value="true" />
+                <label class="form-check-label" for="flexCheckChecked">@role.Name</label>
+            }
+            
+        </div>
+    }
+    <div>
+        <button type="submit" asp-area="Admin" asp-controller="User" asp-action="EditRights">Сменить</button>
+    </div>
 </form>
+
